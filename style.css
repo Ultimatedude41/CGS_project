@@ -58,6 +58,9 @@ h1 {
 
 body {
     background: #F59E0B;
+    height: 911px;
+    display: flex;
+    flex-direction: column;
 }
 
 footer {
