@@ -4,7 +4,6 @@
 <head>
 
 <link rel="stylesheet" href="style.css">
-<script type="text/javascript" rel="script" src="js/script.js" defer></script>
 </head>
 
 <body>
@@ -47,22 +46,8 @@
     Naan Nirvana | 123 Flavor St, Food City | (123) 456-7890
 </footer>
 
-<!-- JS  -->
 
-<script>
-    let slides = document.querySelectorAll(".slide");
-    let index = 0;
-
-    function changeSlide() 
-    {
-        slides[index].classList.remove("active");
-        index = (index + 1) % slides.length;
-        slides[index].classList.add("active");
-    }
-
-    setInterval(changeSlide, 5000); // change every 5 seconds
-</script>
-
+<script src="script.js"></script>
 </body>
 
 </html>

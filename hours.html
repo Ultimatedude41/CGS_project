@@ -4,7 +4,6 @@
 <head>
 
 <link rel="stylesheet" href="style.css">
-<script type="text/javascript" rel="script" src="js/script.js" defer></script>
 </head>
 
 <body>
@@ -64,15 +63,6 @@
 </footer>
 
 <script>
-/* slideshow */
-    const slides = document.querySelectorAll('.slide');
-    let idx = 0;
-    const changeSlide = () => {
-        slides[idx].classList.remove('active');
-        idx = (idx + 1) % slides.length;
-        slides[idx].classList.add('active');
-    };
-    setInterval(changeSlide, 5000);
 
     const schedule = {
         Sunday: [{ open: '10:00', close: '15:00' }],
@@ -120,6 +110,8 @@
     updateStatus();
     setInterval(updateStatus, 60_000);
 </script>
+
+<script src="script.js"></script>
 </body>
 
 </html>
