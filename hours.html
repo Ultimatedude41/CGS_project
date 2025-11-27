@@ -26,12 +26,33 @@
 <main>
 <!--Main-->
 <!--Div-->
-    <div class=
-        
+<!--Slideshow -->
+    <div class="slideshow">
+        <img src="images/chole.jpg" class="slide active">
+        <img src="images/biryani.jpg" class="slide">
+        <img src="images/bchick.jpg" class="slide">
+        <img src="images/samosa.jpg" class="slide">
+        <img src="images/haleem.jpg" class="slide">
     </div>
 
 <!--Page Content-->
-<section class=
+<section class="content">
+<h1>Hours & Status</h1>
+
+<p>Below are our regular opening hours. This page will also tell you whether we're open right now based on your local time.</p>
+
+<table id="hours-table">
+    <tr><th>Day</th><th>Hours</th></tr>
+    <tr><td>Monday</td><td>11:00 AM - 9:00 PM</td></tr>
+    <tr><td>Tuesday</td><td>11:00 AM - 9:00 PM</td></tr>
+    <tr><td>Wednesday</td><td>11:00 AM - 9:00 PM</td></tr>
+    <tr><td>Thursday</td><td>11:00 AM - 9:00 PM</td></tr>
+    <tr><td>Friday</td><td>11:00 AM - 10:00 PM</td></tr>
+    <tr><td>Saturday</td><td>10:00 AM - 10:00 PM</td></tr>
+    <tr><td>Sunday</td><td>10:00 AM - 3:00 PM</td></tr>
+</table>
+
+<p id="status" style="font-weight:bold; margin-top:12px">Checking open/closed status...</p>
 
 </section>
 
@@ -40,9 +61,65 @@
 <footer>
     Naan Nirvana | 123 Flavor St, Food City | (123) 456-7890
 </footer>
+</footer>
 
+<script>
+/* slideshow */
+    const slides = document.querySelectorAll('.slide');
+    let idx = 0;
+    const changeSlide = () => {
+        slides[idx].classList.remove('active');
+        idx = (idx + 1) % slides.length;
+        slides[idx].classList.add('active');
+    };
+    setInterval(changeSlide, 5000);
 
+    const schedule = {
+        Sunday: [{ open: '10:00', close: '15:00' }],
+        Monday: [{ open: '11:00', close: '21:00' }],
+        Tuesday: [{ open: '11:00', close: '21:00' }],
+        Wednesday: [{ open: '11:00', close: '21:00' }],
+        Thursday: [{ open: '11:00', close: '21:00' }],
+        Friday: [{ open: '11:00', close: '22:00' }],
+        Saturday: [{ open: '10:00', close: '22:00' }]
+    };
 
+// HH:MM → mins
+    const toMins = t => {
+        const [h, m] = t.split(':').map(Number);
+        return h * 60 + m;
+    };
+
+    const days = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+
+    const updateStatus = () => {
+        const now = new Date();
+        const dayName = days[now.getDay()];
+        const periods = schedule[dayName] || [];
+        const minsNow = now.getHours()*60 + now.getMinutes();
+
+        let open = false;
+        const parts = periods.map(p => {
+            const openMins = toMins(p.open);
+            const closeMins = toMins(p.close);
+            if (!open && minsNow >= openMins && minsNow < closeMins) open = true;
+            return `${p.open} - ${p.close}`;
+        });
+
+        const statusEl = document.getElementById('status');
+        if (!statusEl) return;
+        if (open) {
+            statusEl.innerText = "We are OPEN now. Today's hours: " + (parts.join(', ') || 'Closed');
+            statusEl.style.color = '#00FF00';
+        } else {
+            statusEl.innerText = 'We are CLOSED now. Today\'s hours: ' + (parts.join(', ') || 'Closed all day');
+            statusEl.style.color = '#FF0000';
+        }
+    };
+
+    updateStatus();
+    setInterval(updateStatus, 60_000);
+</script>
 </body>
 
 </html>
