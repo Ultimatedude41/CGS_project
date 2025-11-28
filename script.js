@@ -62,3 +62,52 @@ function displayMenu(menuItems) {
 
 // Load menu when page loads
 window.addEventListener('DOMContentLoaded', loadMenu);
+
+// FORM SUBMISSION FOR ADDING NEW ITEMS
+function setupForm() {
+    const form = document.getElementById('add-item-form');
+    const messageDiv = document.getElementById('form-message');
+    
+    if (!form) return;
+    
+    form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        
+        // Clear previous messages
+        messageDiv.innerHTML = '<p class="loading">Adding menu item...</p>';
+        
+        // Get form data
+        const formData = new FormData(form);
+        
+        try {
+            const response = await fetch('insert_item.php', {
+                method: 'POST',
+                body: formData
+            });
+            
+            const result = await response.json();
+            
+            if (result.success) {
+                messageDiv.innerHTML = `<p class="success">✓ ${result.message}</p>`;
+                form.reset();
+                
+                // Reload menu to show new item
+                setTimeout(() => {
+                    loadMenu();
+                    messageDiv.innerHTML = '';
+                }, 2000);
+            } else {
+                messageDiv.innerHTML = `<p class="error">✗ Error: ${result.error}</p>`;
+            }
+        } catch (error) {
+            messageDiv.innerHTML = '<p class="error">✗ Error submitting form. Please try again.</p>';
+            console.error('Form submission error:', error);
+        }
+    });
+}
+
+// INITIALIZE ON PAGE LOAD
+window.addEventListener('DOMContentLoaded', () => {
+    loadMenu();
+    setupForm();
+});

@@ -42,6 +42,34 @@
         </div>
     </section>
 
+<!-- Add New Menu Item Form -->
+    <section class="add-item-section">
+        <h2>Add New Menu Item</h2>
+        <p class="form-description">Restaurant staff can add new items to the menu below:</p>
+        
+        <form id="add-item-form">
+            <div class="form-group">
+                <label for="food">Food Name: *</label>
+                <input type="text" id="food" name="food" placeholder="e.g., Chicken Tikka Masala" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="price">Price: *</label>
+                <input type="text" id="price" name="price" placeholder="e.g., $12.99" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="image_path">Image Filename:</label>
+                <input type="text" id="image_path" name="image_path" placeholder="e.g., tikka.jpg (leave blank if no image)">
+                <small>Image should be in the 'images' folder</small>
+            </div>
+            
+            <button type="submit" class="submit-btn">Add Menu Item</button>
+        </form>
+        
+        <div id="form-message"></div>
+    </section>
+
 </main>
 
 <footer>
