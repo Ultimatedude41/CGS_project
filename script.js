@@ -17,6 +17,56 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 });
 
+// Hours / status 
+const schedule = {
+    Sunday: [{ open: '10:00', close: '15:00' }],
+    Monday: [{ open: '11:00', close: '21:00' }],
+    Tuesday: [{ open: '11:00', close: '21:00' }],
+    Wednesday: [{ open: '11:00', close: '21:00' }],
+    Thursday: [{ open: '11:00', close: '21:00' }],
+    Friday: [{ open: '11:00', close: '22:00' }],
+    Saturday: [{ open: '10:00', close: '22:00' }]
+};
+
+// HH:MM → mins
+const toMins = t => {
+    const [h, m] = t.split(':').map(Number);
+    return h * 60 + m;
+};
+
+const days = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+
+const updateStatus = () => {
+    const statusEl = document.getElementById('status');
+    if (!statusEl) return;
+
+    const now = new Date();
+    const dayName = days[now.getDay()];
+    const periods = schedule[dayName] || [];
+    const minsNow = now.getHours() * 60 + now.getMinutes();
+
+    let open = false;
+    const parts = periods.map(p => {
+        const openMins = toMins(p.open);
+        const closeMins = toMins(p.close);
+        if (!open && minsNow >= openMins && minsNow < closeMins) open = true;
+        return `${p.open} - ${p.close}`;
+    });
+
+    if (open) {
+        statusEl.innerText = "We are OPEN now. Today's hours: " + (parts.join(', ') || 'Closed');
+        statusEl.style.color = '#00FF00';
+    } else {
+        statusEl.innerText = 'We are CLOSED now. Today\'s hours: ' + (parts.join(', ') || 'Closed all day');
+        statusEl.style.color = '#FF0000';
+    }
+};
+
+window.addEventListener('DOMContentLoaded', () => {
+    updateStatus();
+    setInterval(updateStatus, 60_000);
+});
+
 
 // Fetch and display menu items
 async function loadMenu() {
