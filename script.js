@@ -178,3 +178,27 @@ window.addEventListener('DOMContentLoaded', () => {
     loadMenu();
     setupForm();
 });
+
+//RESERVATION FORM FUNCTIONALITY
+function handleReservation(event) {
+    // Prevent the form from actually submitting the traditional way
+    event.preventDefault();
+
+    // Get form values
+    const name = document.getElementById('name').value;
+    const date = document.getElementById('date').value;
+
+    // Create the alert message
+    const message = `Reservation confirmed for ${name} on ${date}!`;
+
+    // Display the pop-up alert
+    alert(message);
+    
+    // Optional: You can add code here to send the form data to a server using fetch() or an AJAX call
+
+    // Clear the form fields (optional)
+    event.target.reset();
+
+    // Return false to ensure no page reload occurs after the alert
+    return false;
+}
